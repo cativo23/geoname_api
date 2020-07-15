@@ -21,7 +21,7 @@ class GeonamesController extends Controller
     protected $defaultGeonamesFields = [
         'asciiname','latitude','longitude',
         'country_code',
-        'admin1_code', 'feature_code',
+        'admin1_code',
         'admin2_code', ];
 
     /**
@@ -36,12 +36,7 @@ class GeonamesController extends Controller
             ->select( $this->defaultGeonamesFields )
             ->where( 'asciiname', 'LIKE',  '%'.$term.'%' );
 
-        if ($country){
-           $query = $query->where('country_code','=', $country);
-        }
-
         $feature_code = null;
-        $feature_class = 'A';
 
         switch ($type){
             case 'region':
@@ -64,7 +59,14 @@ class GeonamesController extends Controller
             $query->where('feature_code','=', $feature_code);
         }
 
-        $query->orderBy( 'country_code' )->take(10);
+        if ($country){
+            $query = $query->where('country_code','=', $country);
+        }
+
+        $query->orderBy( 'country_code' )
+            ->orderBy( 'admin1_code' )
+            ->orderBy( 'admin2_code' )
+            ->take(10);
 
         return  $query->get();
     }

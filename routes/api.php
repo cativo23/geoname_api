@@ -25,3 +25,4 @@ Route::get('/cities', 'Api\GeonamesController@SearchCities');
 Route::get('/countries', 'Api\GeonamesController@SearchCountries');
 Route::get('/regions', 'Api\GeonamesController@SearchRegions');
 Route::get('/search', 'Api\GeonamesController@SearchAll');
+
